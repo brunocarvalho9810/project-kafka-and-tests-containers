@@ -1,0 +1,30 @@
+Como criar consumidor e produtor generico para qualquer topico
+
+1 - Baixe o docker desktop e docker compose
+
+2 - Crie a imagem do kafka utilizando o docker compose (docker-compose.yaml)
+
+3 - Abra o terminal e rode o comando > docker ps < para verificar se o container esta Ok (ou via desktop)
+	3.1 Copie o nome do container que esta na coluna "NAMES" e adicione nos proximos comandos quando necessario.
+
+4 - Copie os arquivos de certificado para dentro do container na pasta /var/private/ssl
+	4.1 - Via terminal:
+		a - crie a pasta: Abra o terminal e execute o comando > mkdir -p /var/private/ssl <
+		b - copie os arquivos: > docker cp /caminho-do-seu-certificado/meu-certificado.p12 nome-do-container:/var/private/ssl
+		Obs: São dois arquivos de certificado, copie os dois.
+	4.2 - Via docker desktop
+		a - Abra o docker desktop e vai na aba container
+		b - Abra o seu container do kafka e clique na aba Files
+		c - Aqui você consegue manipular os arquivos (copiar/excluir/editar) dentro do container
+
+5 - Copie o arquivo de configuração do kafka para dentro do container (config.properties)
+	Obs: O mesmo passo 4, porem agora pode deixar esse arquivo de configurações dentro da raiz (geralmente /home/appuser)
+
+6 - Abra dois terminais um do lado do outro e execute o comando abaixo para entrar dentro do container kafka
+	Rode o comando > docker exec -u root -it "nome-do-container" bash <
+
+7 - Um dos terminais vai ser o produtor, rode o comando abaixo:
+	kafka-console-producer --bootstrap-server broker1:9093,broker2:9093 --topic myTopic --producer.config config.properties
+
+8 - No outro terminal vai ser o consumidor, rode o comando abaixo:
+	kafka-console-consumer --bootstrap-server broker1:9093,broker2:9093 --topic myTopic --from-beginning --consumer.config config.properties

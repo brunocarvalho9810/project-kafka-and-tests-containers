@@ -1,0 +1,9 @@
+{
+  "namespace": "com.cpf_validator",
+  "type": "record",
+  "name": "User",
+  "fields": [
+    {"name": "cpf", "type": "string"},
+    {"name": "name", "type": "string"}
+  ]
+}
